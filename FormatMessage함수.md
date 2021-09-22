@@ -61,8 +61,8 @@
     {
         LPVOID err_mes = NULL;		//포인터 변수 생성
 
-        //FormatMessage함수 작성
-        FormatMessage
+        
+        FormatMessage               //FormatMessage함수 작성
         (
             FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,	//dwFlags
             NULL,								//lpSource
