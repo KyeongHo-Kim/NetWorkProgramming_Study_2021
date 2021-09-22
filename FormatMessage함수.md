@@ -70,7 +70,7 @@
             MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),		        //dwLanguageId
             (LPSTR)&err_mes,						//lpBuffer
             0,								//nSize
-            NULL									//list	Argument
+            NULL								//list	Argument
         );
         
         cout << mes<<" : "<< (LPVOID)err_mes << endl;
