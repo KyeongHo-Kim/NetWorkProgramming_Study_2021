@@ -66,8 +66,8 @@
         (
             FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,	//dwFlags
             NULL,								//lpSource
-            WSAGetLastError(),					//dwMessageId
-            MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),						//dwLanguageId
+            WSAGetLastError(),					    //dwMessageId
+            MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),				//dwLanguageId
             (LPSTR)&err_mes,												//lpBuffer
             0,																//nSize
             NULL															//list	Argument
