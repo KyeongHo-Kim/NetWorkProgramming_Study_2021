@@ -81,7 +81,7 @@
         if(tcpSOCK == INVALID_SOCK)                                     // Error의 경우 
         {
                 err_display("socket")                                   // formatmessage 함수 호출
-                Cloneanup();
+                WSACleanup();
                 return 0;                                               // 종료
         }
         cout<<"socket discriptor : "<< tpcsock <<endl;                  // 정상일때 출력
