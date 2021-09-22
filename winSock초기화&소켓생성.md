@@ -10,7 +10,7 @@
         int WSAAPI WSAStartup
         (
             WORD wVersionRequested,     //MAKEWORD()사용 
-            LPWSADATA lpWSAData     //포인터이며(1개), WSADATA가 들어간다.
+            LPWSADATA lpWSAData     //포인터이며(1개), WSADATA타입의 변수의 주소값작성
         )
 - return value가 0이면 정상 아니면 error code가 나온다.
   
