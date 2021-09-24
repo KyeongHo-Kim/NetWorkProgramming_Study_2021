@@ -94,7 +94,7 @@
             PSRT    pStringBuf,     // 3. 16byte이상 의 메모리공간 필요, 메모리를 만들고 여기에 사용
             size_t  StringBufSize   // 4. 3번에 사용된 메모리의 size작성
         );
-- 정상적으로 작동하면 포인터를 리턴히고 error가 발생하면 NULL-point가 리턴된다.
+- 정상적으로 작동하면 포인터를 리턴히고 error가 발생하면 NULL-pointer가 리턴된다.
 
 </br></br>
 
