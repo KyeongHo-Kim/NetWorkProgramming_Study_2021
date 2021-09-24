@@ -71,7 +71,7 @@
 
 </br>
 
->InetPron()
+>InetPton()
 - 문자열 형태의 IPv4 or IPv6 주소를 숫자 바이너리로 변환한다. 
         
         INT WSAAPI InetPton
