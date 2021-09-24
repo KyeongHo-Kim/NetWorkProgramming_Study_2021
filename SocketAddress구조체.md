@@ -77,7 +77,7 @@
         INT WSAAPI InetPton
         (
             INT      Family,            // 주소체계
-            PCSTR    pszAddrString,     // 1. ip형태로 되어있는 문자열 작성 Ex)"1.2.3.4" , 2. NULL로 끝나야됨
+            PCSTR    pszAddrString,     // 1. ip형태로 되어있는 문자열 작성 Ex)"1.2.3.4" , 1-2. NULL로 끝나야됨
             PVOID    pAddrBuf           // 2. 1에서 설정한 ip주소를 network byte order형태로 저장
         );
 - 정상적으로 작동하면 1을 리턴 나머진 Error
