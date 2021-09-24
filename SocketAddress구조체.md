@@ -28,7 +28,26 @@
 
 </br>
 
-### IP주소 작성 (IN_ADDR 구조체)
+## 바이트 정렬 함수 
+
+> ### 네트워크 바이트 정렬
+ - 네트워크를 사용하여 데이터나 정보를 송신할때는 network byte order 변환
+ - 소켓 구조체의 port번호를 작성할때 사용
+  
+        u_short htons       //host-to-network-short
+        u_long htonl        //host-to-network-long
+
+</br>
+
+> ### 호스트 바이트 정렬
+- 수신받은 데이터(ip주소 & port번호)를 출력할려면 host byte order 변환 
+
+        u_short ntohs       //network-to-host-short
+        u_long ntohl       //network-to-host-long
+
+</br></br>
+
+## IP주소 작성 (IN_ADDR 구조체)
 >union의 size는 제일 큰 것으로 통일된다. 즉 'N'byte가 여러개 있어도 메모리의 size는 제일 큰 'N'byte의 size로 결정된다.
 
 </br>
@@ -49,18 +68,6 @@
     #define s_addr S_un.S_addr                          //s_addr을 사용하면 S_un(union)의 3번형태로 저장해준다.
 
     }IN_ADDR;
-
-</br></br>
-
-> ### 호스트 바이트 정렬
-
-- 수신받은 데이터(ip주소 & port번호)를 출력할려면 host byte order 변환 
-  
-        u_short ntohs       //network-to-host-short     // 수신받은 데이터를 화면에 출력할때 사용
-        u_long ntohl       //network-to-host-long
-        u_short htons       //host-to-network-short     // 네트워크를 통해 데이터를 송신할때 사용
-        u_long htonl       //host-to-network-long
-
 
 </br>
 
@@ -106,25 +113,18 @@
 
 
 
-</br></br></br>
-
-## 바이트 정렬 함수 
-> ### 네트워크 바이트 정렬
- - 네트워크를 사용하여 데이터나 정보를 송신할때는 network byte order 변환
- - 소켓 구조체의 port번호를 작성할때 사용
-  
-        u_short htons       //host-to-network-short
-        u_long htonl        //host-to-network-long
-
-
-
-</br></br></br>
-
 >순서
 
 1. SOCKADDR_IN 타입의 메모리 즉 변수를 생성한다.
 2. 생성된 변수에 ip주소와 port번호를 넣는다.
 3. socket함수에 넘겨줄때 주소값을 사용하여 알려주는데 이때 포인터의 형식은 "기본형"인 SOCKADDR로 설정한다.
+
+
+</br></br></br>
+
+</br></br></br>
+
+
 
 
 
