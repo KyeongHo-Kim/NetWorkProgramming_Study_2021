@@ -79,7 +79,7 @@
 >사용 예
 
         SOCKET tcpSock = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP)        // SOCKET타입의 tcpsock변수를 만들고 socket함수를 넣는다.
-        if(tcpSOCK == INVALID_SOCK)                                     // Error의 경우 
+        if(tcpSOCK == INVALID_SOCKET)                                     // Error의 경우 
         {
                 err_display("socket")                                   // formatmessage 함수 호출
                 WSACleanup();

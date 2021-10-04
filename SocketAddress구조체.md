@@ -7,12 +7,13 @@
 </br>
 
 > 기본형
+- sand(송신) 함수에 IP와 port번호를 전달할때 대표로 사용한다.
 
-    typedef struct sockaddr     //기본 구조체
-    {
-        u_short as_family;      // 주소체계
-        char as_data[14];       // 
-    }SOCKADDR;                  // 명칭(이름)
+        typedef struct sockaddr     //기본 구조체
+        {
+            u_short as_family;      // 주소체계
+            char as_data[14];       // 
+        }SOCKADDR;                  // 명칭(이름)
 
 </br></br>
 
@@ -47,7 +48,7 @@
 
 </br></br>
 
-## IP주소 작성 (IN_ADDR 구조체)
+## SOCKADDR_IN구조체의 IP주소 작성 (IN_ADDR 구조체)
 >union의 size는 제일 큰 것으로 통일된다. 즉 'N'byte가 여러개 있어도 메모리의 size는 제일 큰 'N'byte의 size로 결정된다.
 
 </br>
@@ -71,13 +72,16 @@
 
 </br>
 
->InetPron()
+## Dotted Decimal 형태로 사용
+
+>InetPton()
 - 문자열 형태의 IPv4 or IPv6 주소를 숫자 바이너리로 변환한다. 
+- 입력할때 사용
         
         INT WSAAPI InetPton
         (
             INT      Family,            // 주소체계
-            PCSTR    pszAddrString,     // 1. ip형태로 되어있는 문자열 작성 Ex)"1.2.3.4" , 2. NULL로 끝나야됨
+            PCSTR    pszAddrString,     // 1. ip형태로 되어있는 문자열 작성 Ex)"1.2.3.4" ,문자열형태를 숫자로 바꿔줌
             PVOID    pAddrBuf           // 2. 1에서 설정한 ip주소를 network byte order형태로 저장
         );
 - 정상적으로 작동하면 1을 리턴 나머진 Error
@@ -86,6 +90,7 @@
 
 > InetNtop()
 - IPv4 or IPv6 network address를 string 형태로 변환한다.
+- 출력할때 사용
         
         PCSTR WSAAPI InetNtop
         (
@@ -98,7 +103,7 @@
 
 </br></br>
 
-## 도메인네임 -> IP주소 변환
+## Domain Name 형태로 사용
 
 >getadddrinfo()
 
@@ -106,26 +111,87 @@
     (
         PCSTR   pNodeName,              // 문자열 형태로 host domain name을 작성 Ex)"naver.com"
         PCSTR   pServiceName,           // 문자열 형태로 작성 Ex) "http" or "80"
-        const ADDRINFOA    *pHints,     // DNS Server에 힌트를 주는것, 
-        PADDRINFOA  *ppResult           //
+        const ADDRINFOA    *pHints,     // DNS Server에 힌트를 주는것, 메모리를 만들어야됨 / 구조체 사용
+        PADDRINFOA  *ppResult           // 결과를 저장할 공간필요 PADDRINFOA타입의 메모리공간을 만들고 초기화시킨다.
     );
 
+</br>
+
+> getaddrinfo의 hints 구조체 형식
+
+- gaddrinfo()의 hints를 작성할려면 아래와같은 형식의 메모리를 생성해야한다.
+- 반드시 0으로 초기화한다
+
+        ADDRINFOA hints;                            //DNS에 제공할 힌트
+        ZeroMemory(목적지, 사이즈)                   //hints 초기화
+        PADDRINFOA result = NULL;                   //결과값을 받을 메모리(포인터)
+
+        typedef struct addrinfo
+        {
+            int                  ai_flags;          // AI_CANONNAEME 작성 
+            int                  ai_family;         // AF_INET
+            int                  ai_socktype;       //Tcp = STREAM      Udp = DGRAM
+            int                  ai_protocol        //IPPROTO_???
+
+            size_t               ai_addrlen;
+            char                 *ai_canonneame;
+            struct sockaddr      *ai_addr;          //sockaddr타입의 메모리를 만들고 size를 ai_addrlen에 알려준다.
+            struct addrinfo      *ai_next;          //ip주소가 여러개일때 다음 addrinfo memory
+
+        }ADDRINFOA
 
 
+## Linkd list(연결형 리스트)
+
+>기본지식
+
+1. 포인터 메모리를 만들면 타입과 상관없이 32bit 이다
+2. 포인터 메모리에 어떤 값을 넣기위해선 타입이 같아야한다. (형 변환필요)
+
+
+</br></br>
 
 >순서
 
 1. SOCKADDR_IN 타입의 메모리 즉 변수를 생성한다.
-2. 생성된 변수에 ip주소와 port번호를 넣는다.
-3. socket함수에 넘겨줄때 주소값을 사용하여 알려주는데 이때 포인터의 형식은 "기본형"인 SOCKADDR로 설정한다.
+2. 메모리 형식에 맞추어 주소체계, 포트번호, ip주소를 작성한다.
+
+  - ip주소 작성법
+    
+        dotted decmal
+
+        if(InetPton(AF_INET,"ip주소", &SOCKADDR_IN타임 메모리 주소) != 1)
+        {
+                error메시지 출력함수
+                return -1;
+        }
+
+        domin name
+
+        ADDRINFOA hints = NULL;
+        ZeroMemory(목적지,사이즈)
+        PADDRINFO result = NULL;
+
+        hints.ai_flags
+        hints.ai_family
+        hints.ai_socketype
+        hints.ai_prtocol
+        
+        if(getaddrinfo("도메인네임","http",&hints,&result))
+        {
+            error 메시지 출력함수
+            return -1
+        }
+
+        PADDRINFOA ptr = NULL;
+        SOCKADDR_IN *qtr = NULL;
+
+        for(ptr = result; ptr != NULL; ptr = ptr->ai_next)
+        {
+            qtr = (SOCKADDR_IN*)(ptr->ai_addr);
+            ip설정 확인용 함수(&qtr);
+        }
 
 
-</br></br></br>
-
-</br></br></br>
 
 
-
-
-
-- socket함수를 (SOCKADDR/기준구조체)사용하여 상대방의 포트번호와 ip주소를 요구하는 형식
