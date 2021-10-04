@@ -102,4 +102,4 @@
 
 >사용 예
 
-        closesocket(tcpsock);           //소켓 생성때 만든 변수를 파라미터로 설정
+        closesocket(tcpsock);           //소켓 생성때 만든 변수를 파라미터로 설정한다.
