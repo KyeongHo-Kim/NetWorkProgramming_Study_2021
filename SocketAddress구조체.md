@@ -72,8 +72,11 @@
 
 </br>
 
+<<<<<<< HEAD
 ## Dotted Decimal 형태로 사용
 
+=======
+>>>>>>> 22f7bfa46e85d60eed3f0ded64cf2fdf27e73188
 >InetPton()
 - 문자열 형태의 IPv4 or IPv6 주소를 숫자 바이너리로 변환한다. 
 - 입력할때 사용
@@ -81,10 +84,14 @@
         INT WSAAPI InetPton
         (
             INT      Family,            // 주소체계
+<<<<<<< HEAD
             PCSTR    pszAddrString,     // 1. ip형태로 되어있는 문자열 작성 Ex)"1.2.3.4" ,문자열형태를 숫자로 바꿔줌
+=======
+            PCSTR    pszAddrString,     // 1. ip형태로 되어있는 문자열 작성 Ex)"1.2.3.4" , 1-2. NULL로 끝나야됨
+>>>>>>> 22f7bfa46e85d60eed3f0ded64cf2fdf27e73188
             PVOID    pAddrBuf           // 2. 1에서 설정한 ip주소를 network byte order형태로 저장
         );
-- 정상적으로 작동하면 1을 리턴 나머진 Error
+- 정상적으로 작동하면 1을 리턴 다른 값은 Error
 
 </br></br>
 
@@ -99,7 +106,7 @@
             PSRT    pStringBuf,     // 3. 16byte이상 의 메모리공간 필요, 메모리를 만들고 여기에 사용
             size_t  StringBufSize   // 4. 3번에 사용된 메모리의 size작성
         );
-- 정상적으로 작동하면 포인터를 리턴히고 error가 발생하면 NULL-point가 리턴된다.
+- 정상적으로 작동하면 포인터를 리턴히고 error가 발생하면 NULL-pointer가 리턴된다.
 
 </br></br>
 
