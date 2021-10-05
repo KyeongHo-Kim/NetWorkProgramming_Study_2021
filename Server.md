@@ -10,8 +10,7 @@
         int bind
         (
             SOCKET           s,             //소켓생성때 만든 socket discriptor값이 저장된 메모리(변수)
-            const sockaddr  *addr,          //ip주소와 port번호 즉 SOCKADDR_IN 타입 메모리를 만들어서 여기 작성 형태는 SOCKADDR* 형태로해야된다.
-
+            const sockaddr  *addr,          //ip주소와 port번호 즉 SOCKADDR_IN 타입 메모리를 만들어 SOCKADDR*(대표타입)형태로 작성한다.
             int              namelen        //sockaddr  *addr에 해당하는 메모리의 크기(SOCKARRD_IN type memory size)
         );
 - 정상적으로 작동하면 return 0, 오류가 발생하면 return socket_error 
