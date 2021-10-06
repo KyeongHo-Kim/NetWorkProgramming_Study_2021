@@ -11,7 +11,6 @@
         (
             SOCKET           s,             //Gate socket(처음 생성한 소켓)
             const sockaddr  *addr,          //ip주소와 port번호 즉 SOCKADDR_IN 타입 메모리를 만들어서 여기 작성 형태는 SOCKADDR* 형태로해야된다.
-
             int              namelen        //sockaddr  *addr에 해당하는 메모리의 크기(SOCKARRD_IN type memory size)
         );
 - 정상적으로 작동하면 return 0, 오류가 발생하면 return socket_error 
