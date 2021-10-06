@@ -1,5 +1,5 @@
 /*
-1. winsock을 초기화한다.
+1. winock을 초기화한다.
     - WSAStartup()
 2. Gate_Socket을 생성한다.
     - SOCKET name = socket()
