@@ -10,7 +10,8 @@
         int bind
         (
             SOCKET           s,             //소켓생성때 만든 socket discriptor값이 저장된 메모리(변수)
-            const sockaddr  *addr,          //ip주소와 port번호 즉 SOCKADDR_IN 타입 메모리를 만들어 SOCKADDR*(대표타입)형태로 작성한다.
+            const sockaddr  *addr,          //ip주소와 port번호 즉 SOCKADDR_IN 타입 메모리를 만들어서 여기 작성 형태는 SOCKADDR* 형태로해야된다.
+
             int              namelen        //sockaddr  *addr에 해당하는 메모리의 크기(SOCKARRD_IN type memory size)
         );
 - 정상적으로 작동하면 return 0, 오류가 발생하면 return socket_error 
@@ -44,11 +45,30 @@ bind()함수를 사용하지않으면 서버가 클라이언트와 통신을 할
 ## listen() 함수
 
 - socket을 연결가능한 상태로 만들어주는 역할을 한다.
-  
-        int listen
+- listen_buf에 클라이언트의 요청이 들어오면 연결이 완료된 상태이다.
+- 정상적으로 작동하면 return 0, 오류가 발생하면 return socket_error 
+
+      int listen
         (
             SOCKET s,               //소켓생성때 만든 socket discriptor값이 저장된 메모리(변수)
-            int backlog             //SOMAXCONN(연결요청을 받는 buf를 생성/ (listen_buf를 만든다))
+            int backlog             //SOMAXCONN(연결요청을 받는 buf를 생성/ (max size listen_buf를 만든다))
         );
 
-- listen_buf에 클라이언트의 요청이 들어오면 연결이 완료된 상태이다.
+
+</br></br></br>
+
+## accept()함수
+
+- listen()의 buf에 저장된 요청사항을 가져와 서비스를 한다.
+- 연결승인이 아닌 서비스 승인을 담당한다.
+- 정상 동작시 listen buf 에서 가져온 요청의 socket discriptor를 반환한다. 즉 특정 클라이언트와 통신을 위한 전용소켓을 새로 만든다.
+  
+        SOCKET accept
+        (
+            SOCKET s,               // gate socket
+            struct sockaddr*addr,   // SOCKADDR_IN메모리 상대방(클라이언트)의 정보를 저장하기 위한 공간
+            int*addrlen             //
+        );
+
+        Success = 전용소켓 생성
+        failed = INVALID_SOCKET

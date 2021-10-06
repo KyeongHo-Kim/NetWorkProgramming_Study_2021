@@ -43,7 +43,7 @@ int main()
     iPv4_addr.sin_port = htons(8000);
 
     //3-1 dotted decimal형식으로 설정
-    // if(InetPton(AF_INET,"1.2.3.4",&iPv4_addr.sin_addr) != 1)
+    // if(InetPton(AF_INET,"1.2.3.4",&iPv4_addr.s   r) != 1)
     // {
     //     Err_Display("InetPton()");
     //     return -1;
