@@ -94,7 +94,7 @@ bind()함수를 사용하지않으면 서버가 클라이언트와 통신을 할
         2. MSG_OOB:         out of band  //사용x
         3. MSG_WAITALL:                  //사용x
 
-- 오류가 나면 SOCKET_ERROR가 반환되고, 정상작동 하면 수신한 byte size를 반환한다. 추가로 정상적으로 연결을 종료 했을때 0을 반환한다.
+- 오류가 나면 SOCKET_ERROR가 반환되고, 정상작동 하면 수신받은 byte size를 반환한다. 추가로 정상적으로 연결을 종료 했을때 0을 반환한다.
   
   여기서 수신받은 byte size는 만약 4byte의 공간에 4byte이상의 데이터를 받게 되면 전체가 pumping되지 않고
   설정한 크기인 4byte만큼만 이동한다.
