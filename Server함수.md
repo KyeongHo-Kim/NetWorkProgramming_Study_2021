@@ -62,6 +62,7 @@ bind()함수를 사용하지않으면 서버가 클라이언트와 통신을 할
 - listen()의 buf에 저장된 요청사항을 가져와 서비스를 한다.
 - 연결승인이 아닌 서비스 승인을 담당한다.
 - 정상 동작시 listen buf 에서 가져온 요청의 socket discriptor를 반환한다. 즉 특정 클라이언트와 통신을 위한 전용소켓을 새로 만든다.
+- 새로 만들어진 socket은 클라이언트와 Session으로 연결된다.
   
         SOCKET accept
         (
@@ -72,3 +73,44 @@ bind()함수를 사용하지않으면 서버가 클라이언트와 통신을 할
 
         Success = 전용소켓 생성
         failed = INVALID_SOCKET
+
+</br></br></br>
+
+## recv()함수
+- 기본적으로 상대방host(연결된 소켓)로 부터 데이터를 수신한다.
+- 파라미터로 accept에서 만들어진 scocket, 수신받은 데이터를 저장한 공간(pointer), 저장공간의 size,  option 총 4가지 이다.
+
+
+        int WSAAPI recv
+        (
+            SOCKET  s,       // accept에서 만들어진 scoket
+            char    *buf,    // 수신받은 data저장공간(주소로작성)   메모리를 만들어야한다.(배열)
+            int     len,     // buf의 size
+            int     flags    // option   이번학기 대부분 0으로 사용
+        );
+
+        option 종류
+        1. MSG_PEEK:        설정한 data공간으로 복사되고 데이터가 사라지지 않는다.
+        2. MSG_OOB:         out of band  //사용x
+        3. MSG_WAITALL:                  //사용x
+
+- 오류가 나면 SOCKET_ERROR가 반환되고, 정상작동 하면 수신한 byte size를 반환한다. 추가로 정상적으로 연결을 종료 했을때 0을 반환한다.
+  
+  여기서 수신받은 byte size는 만약 4byte의 공간에 4byte이상의 데이터를 받게 되면 전체가 pumping되지 않고
+  설정한 크기인 4byte만큼만 이동한다.
+
+  </br></br></br>
+
+## send()함수
+- 상대방host(연결된 소켓)로 데이터를 송신한다.
+- 파라미터로 accept에서 만들어진 scocket, 전송할 메모리의 저장한 공간(pointer), 전송할 data size,  option 총 4가지 이다.
+
+      int WSAAPI send
+      (
+          SOCKET            s,
+          const char        *buf,
+          int               len,
+          int               flags
+      );
+
+- 반환값으로 내 컴퓨터에 쌓아놓은 byte size를 반환한다.
