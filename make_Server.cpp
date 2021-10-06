@@ -46,11 +46,12 @@ int main()
     SOCKADDR_IN v4_addr;
     v4_addr.sin_family = AF_INET;
     v4_addr.sin_port = htons(8000);
-    if (InetPton(AF_INET,"1.2.3.4",&v4_addr.sin_addr) != 1)
-    {
-        Err_Display("InetPton()");
-        return -1;
-    }
+    // if (InetPton(AF_INET,"0.0.0.0",&v4_addr.sin_addr) != 1)
+    // {
+    //     Err_Display("InetPton()");
+    //     return -1;
+    // }
+    v4_addr.sin_addr.s_addr = htonl(INADDR_ANY);
     
     if (bind(s_Sock,(SOCKADDR*)&v4_addr,sizeof(v4_addr)))
     {
