@@ -9,7 +9,7 @@
 
         int bind
         (
-            SOCKET           s,             //소켓생성때 만든 socket discriptor값이 저장된 메모리(변수)
+            SOCKET           s,             //Gate socket(처음 생성한 소켓)
             const sockaddr  *addr,          //ip주소와 port번호 즉 SOCKADDR_IN 타입 메모리를 만들어서 여기 작성 형태는 SOCKADDR* 형태로해야된다.
 
             int              namelen        //sockaddr  *addr에 해당하는 메모리의 크기(SOCKARRD_IN type memory size)
@@ -50,8 +50,8 @@ bind()함수를 사용하지않으면 서버가 클라이언트와 통신을 할
 
       int listen
         (
-            SOCKET s,               //소켓생성때 만든 socket discriptor값이 저장된 메모리(변수)
-            int backlog             //SOMAXCONN(연결요청을 받는 buf를 생성/ (max size listen_buf를 만든다))
+            SOCKET s,               //Gate socket(처음 생성한 소켓)
+            int backlog             //SOMAXCONN(연결요청을 받는 buf를 생성/ (max size listen_buf를 만든다.))
         );
 
 
