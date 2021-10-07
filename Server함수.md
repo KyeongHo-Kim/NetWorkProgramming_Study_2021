@@ -66,7 +66,7 @@ bind()함수를 사용하지않으면 서버가 클라이언트와 통신을 할
         SOCKET accept
         (
             SOCKET s,               // gate socket
-            struct sockaddr*addr,   // SOCKADDR_IN메모리 상대방(클라이언트)의 정보를 저장하기 위한 공간
+            struct sockaddr*addr,   // 상대방(클라이언트)의 정보를 저장하기 위한 공간,  SOCKADDR_IN타입 메모리 생성해서 사용
             int*addrlen             //
         );
 
@@ -122,7 +122,7 @@ bind()함수를 사용하지않으면 서버가 클라이언트와 통신을 할
     - recv() 함수 -
 
     char buf[80]        //클라이언트로 부터 수신받은 data저장장소
-    int recvlen;        //수신(return)된 byte 저장소
+    int recvlen;        //return된 byte 저장소
 
     while(true)
     {

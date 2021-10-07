@@ -39,11 +39,11 @@ int main()
     //3. ip주소와 port번호 셋팅 및 확인 출력
     SOCKADDR_IN iPv4_addr;
 
-    iPv4_addr.sin_family = AF_INET;
-    iPv4_addr.sin_port = htons(8000);
+    // iPv4_addr.sin_family = AF_INET;
+    // iPv4_addr.sin_port = htons(8000);
 
     //3-1 dotted decimal형식으로 설정
-    // if(InetPton(AF_INET,"1.2.3.4",&iPv4_addr.s   r) != 1)
+    // if(InetPton(AF_INET,"1.2.3.4",&iPv4_addr.sin_addr) != 1)
     // {
     //     Err_Display("InetPton()");
     //     return -1;
