@@ -77,8 +77,7 @@ bind()함수를 사용하지않으면 서버가 클라이언트와 통신을 할
 
 ## recv()함수
 - 기본적으로 상대방host(연결된 소켓)로 부터 데이터를 수신한다.
-- 파라미터로 accept에서 만들어진 scocket, 수신받은 데이터를 저장한 공간(pointer), 저장공간의 size,  option 총 4가지 이다.
-
+- 파라미터로 accept에서 만들어진 scocket, 수신받은 데이터를 저장한 공간(pointer), 저장공간의 size,  option 총 4가지 이다
 
         int WSAAPI recv
         (
@@ -98,6 +97,7 @@ bind()함수를 사용하지않으면 서버가 클라이언트와 통신을 할
   여기서 수신받은 byte size는 만약 4byte의 공간에 4byte이상의 데이터를 받게 되면 전체가 pumping되지 않고
   설정한 크기인 4byte만큼만 이동한다.
 
+
   </br></br></br>
 
 ## send()함수
@@ -113,3 +113,33 @@ bind()함수를 사용하지않으면 서버가 클라이언트와 통신을 할
       );
 
 - 반환값으로 내 컴퓨터에 쌓아놓은 byte size를 반환한다.
+
+</br>
+
+
+>사용예시
+
+    - recv() 함수 -
+
+    char buf[80]        //클라이언트로 부터 수신받은 data저장장소
+    int recvlen;        //수신(return)된 byte 저장소
+
+    while(true)
+    {
+        revclen = recv(c_sock, buf, 80, 0)
+        if(!recvlen || recvlen == SOCKET_ERROR)         //0 또는 SOCKET_ERROR가 반환되면
+        {
+            cout<<"client connection close case";
+            closesocket(c_sock);                        //전용 소켓을 닫는다.
+            brake;
+        }
+
+        buf[recvlen] = NULL;                            // 수신된 마지막 바이트에 NULL 입력
+        cout<<"Fron client"<<buf<<endl;                 //화면에 출력
+
+
+
+    - send() 함수 -
+    send(c_sock,buf,recvlen,0);
+
+    } 
