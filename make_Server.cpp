@@ -1,12 +1,28 @@
 /*
 1. winsock을 초기화한다.
+    - WSAStartup(MAKEWORD(),&) 
+
 2. Gate_socket을 생성한다.
+    - socket(af,type,protocol)
+
 3. ip와 포트번호를 할당한다.
+    - SOCKADDR_IN
+
 4. localaddress와 socket을 열결짓는다.
+    - bind(SOCKET,(SOCKARRD*)&,sizeof())
+
 5. server의 상태를 연결가능한 상태로 만든다 listen buf생성
+    -listen(SOCKET, SOMAXCONN)
+
 6. 클라이언트와 통신할 전용 소켓을 생성하고 서비스를 승인한다.
+    - accept(SOCKET,(SOCKADDR*)&, &size)
+
 7. 수신을 받고 출력한다.
+    - recv(SOCKET,buf,size,option)
+    -buf[] = NULL
+
 8. 받은 data를 되돌려준다 
+    - send(SOCKET,buf,size,0)
 */
 
 #pragma comment(lib,"ws2_32.lib")
@@ -41,7 +57,7 @@ int main()
 	SOCKADDR_IN saddr;
 	saddr.sin_family = AF_INET;
 	saddr.sin_port = htons(8000);
-	Insert_IP("192.168.35.17",&saddr.sin_addr);
+	Insert_IP("127.0.0.1",&saddr.sin_addr);
 
 	if (bind(tcpSocket,(SOCKADDR*)&saddr,sizeof(saddr)))
 	{

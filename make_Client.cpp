@@ -1,3 +1,24 @@
+/*
+1. winsock을 초기화한다.
+    - WSAStartup(MAKEWORD(),&) 
+
+2. Gate_socket을 생성한다.
+    - socket(af,type,protocol)
+
+3. ip와 포트번호를 할당한다.
+    - SOCKADDR_IN
+
+4. 연결요청을 한다.
+    connet(SOCKET,(SOCKADDR*)& ,sizeof())
+
+5. 송신
+    - send(SOCKET,buf,szie,option)
+    - fgets()
+
+6. 수신
+    - recv(SOCKET,buf,szie,option)
+*/
+
 #pragma comment(lib,"ws2_32.lib")
 #include<WinSock2.h>
 #include<WS2tcpip.h>
@@ -30,7 +51,7 @@ int main()
     SOCKADDR_IN caddr;
     caddr.sin_family = AF_INET;
     caddr.sin_port = htons(8000);
-    Insert_IP("192.168.35.17", &caddr.sin_addr);
+    Insert_IP("127.0.0.1", &caddr.sin_addr);
 
     if (connect(g_sock,(SOCKADDR*)&caddr,sizeof(caddr)))
     {
