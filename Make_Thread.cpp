@@ -20,6 +20,7 @@ int main()
         th[i] = (HANDLE)_beginthreadex(NULL,0,&Func,arg,0,NULL);
 
     WaitForMultipleObjects(info.dwNumberOfProcessors,th,true,INFINITE);
+   
 
     cout<<counter<<endl;
     return 0;

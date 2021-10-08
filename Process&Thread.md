@@ -53,7 +53,7 @@ Process가 많으면 그만큼 context_switching_Overhead가 많이 발생하기
         usigned ( __stdcall *start_address )(void *),         // thread를 이용해 일 을 시킬 함수 , 함수의 start address가 들어온다.
         void *arglist,                                        // 사용할 파라미터의 갯수 지정 (배열사용)
         unsigend initfla,                                     // thread를 즉시실행 할지 조건(if)을 걸지 결정 0으로 셋팅하면 기본값으로 설정된다.
-        unsigend *thrdaddr                                    //thrdaddr의 ID, thrdaddr를 구분할때 사용(thread를 공유할때 thread ID를 사용한다.)
+        unsigend *thrdaddr                                    // thrdaddr의 ID, thrdaddr를 구분할때 사용(thread를 공유할때 thread ID를 사용한다.)
       );
 
 
@@ -100,7 +100,23 @@ Thread를 생성하면 default "non-signal"상태로 할당된다. Thread가 종
         DWORD        nCount,          //몇개의 thread를 체크해야할지, SYSTEM_INFO 변수 활용
         const HANDLE *lpHandles,      // Handle값이 저장된 메모리
         BOOL         bWaitAll,        //조건 thread가 전부 (signal)변경됬을때 또는 하나라도 변경되었을때 즉 옵션을 정함.
-                                      //"true" 셋팅시 모든 thread가 signal상태가 되어야 빠져나옴 
         DWORD        dwMilliseconds   //기다리는 시간 INFINITE사용.
       );
 
+      waitall = true셋팅시 thread가 전부 signal상태가 되어야 빠져나옴 // false 셋팅시 thread가 하나라도 signal상태가 되면 빠져나온다.
+
+
+</br></br>
+
+## getpeername()
+
+- 상대방의 정보를 얻어온다.
+
+      int getpeername
+      (
+        SOCKET              s,          // 클라이언트의 소켓
+        strucet sockaddr    *name,      // 클라이언트의 정보 (SOCKADDR *)타입
+        int                 *namelen    // size 배열사용
+      );
+
+ 

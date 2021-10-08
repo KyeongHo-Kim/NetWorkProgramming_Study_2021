@@ -37,7 +37,7 @@ int main()
 
 
     //3. ip주소와 port번호 셋팅 및 확인 출력
-    SOCKADDR_IN iPv4_addr;
+    // SOCKADDR_IN iPv4_addr;
 
     // iPv4_addr.sin_family = AF_INET;
     // iPv4_addr.sin_port = htons(8000);
