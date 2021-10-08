@@ -65,12 +65,12 @@
         FormatMessage               //FormatMessage함수 작성
         (
             FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,	//dwFlags
-            NULL,								//lpSource
-            WSAGetLastError(),					        //dwMessageId
-            MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),		        //dwLanguageId
-            (LPSTR)&err_mes,						//lpBuffer
-            0,								//nSize
-            NULL								//list	Argument
+            NULL,								                            //lpSource
+            WSAGetLastError(),					                            //dwMessageId
+            MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),		                //dwLanguageId
+            (LPSTR)&err_mes,						                        //lpBuffer
+            0,								                                //nSize
+            NULL								                            //list	Argument
         );
         
         cout << mes<<" : "<< (LPVOID)err_mes << endl;
