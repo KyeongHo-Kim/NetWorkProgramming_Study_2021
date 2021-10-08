@@ -74,6 +74,7 @@ Thread를 생성하면 default "non-signal"상태로 할당된다. Thread가 종
 
 ## WaitForSingleObject()
 - 하나의 Object signal상태를 체크해준다.
+- signal상태가 될때 까지 기다린다.
 
       DWORD WaitForSingleObject
       (
@@ -94,6 +95,7 @@ Thread를 생성하면 default "non-signal"상태로 할당된다. Thread가 종
 
 ## WaitForMultipleObject()
 - 여러개의 Object signal상태를 체크해준다.
+- signal상태가 될때 까지 기다린다.
 
       DWORD WaitForMultipleObjects
       (
