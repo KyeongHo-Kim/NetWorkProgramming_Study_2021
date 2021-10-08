@@ -1,5 +1,5 @@
 /*
-    동작
+    동작과정
 
     mutexcreate()가 signaled 상태로 변경되면 WaitForSingleObject를 빠져나와 key를 획득하게 된다.
     counter를 증가시키고 끝나면
