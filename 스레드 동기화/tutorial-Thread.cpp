@@ -29,7 +29,7 @@ int main()
 unsigned __stdcall Func(LPVOID arg)
 {
     int start = *((int*)arg);
-    int end = *((int*)end+1);
+    int end = *((int*)arg+1);
     for(int i = start; i < end; i++)
         counter++;
 
