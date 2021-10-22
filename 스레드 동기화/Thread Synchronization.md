@@ -41,6 +41,14 @@
 
 - Auto Reser과 Manual Reset을 정할 수 있다.
 
+      HANDLE CreateEventW
+      (
+      LPSECURITY_ATTRIBUTES lpEventAttributes,    //파생 스레드 생성 결정 NULL
+      BOOL                  bManualReset,         // true = manual reset  false = auto reset
+      BOOL                  bInitialState,        // owner 설정 true = signal    false = non_signal
+      LPCWSTR               lpName                // 별명 사용x NULL
+      );
+
 </br></br>
 
 ## 세마포어

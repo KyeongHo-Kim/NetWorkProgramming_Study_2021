@@ -105,7 +105,7 @@ Thread를 생성하면 default "non-signal"상태로 할당된다. Thread가 종
         DWORD        dwMilliseconds   //기다리는 시간 INFINITE사용.
       );
 
-      waitall = true셋팅시 thread가 전부 signal상태가 되어야 빠져나옴 // false 셋팅시 thread가 하나라도 signal상태가 되면 빠져나온다.
+      bwaitall = true셋팅시 thread가 전부 signal상태가 되어야 빠져나옴 // false 셋팅시 thread가 하나라도 signal상태가 되면 빠져나온다.
 
 
 </br></br>

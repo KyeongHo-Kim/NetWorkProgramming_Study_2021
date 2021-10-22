@@ -57,7 +57,8 @@ int main()
 	SOCKADDR_IN saddr;
 	saddr.sin_family = AF_INET;
 	saddr.sin_port = htons(8000);
-	Insert_IP("127.0.0.1",&saddr.sin_addr);
+	//Insert_IP("127.0.0.1",&saddr.sin_addr);
+	saddr.sin_addr.s_addr = htonl(INADDR_ANY);
 
 	if (bind(tcpSocket,(SOCKADDR*)&saddr,sizeof(saddr)))
 	{
@@ -85,6 +86,7 @@ int main()
 			return -1;
 		}
 
+		cout<<"Connected !!!"<<endl;
 		char buf[80];
 		int recvlen;
 		while (true)
