@@ -82,7 +82,12 @@
             int             optlen          //  size
         );
 
-        문제가 발생하면 SOCKER_ERROR 반환
+        문제가 발생하면 SOCKER_ERROR 반환, 성공 0 반환
 
 >사용예시
-
+        bool broad = true;
+        if(setsockopt(g_sock, SOL_SOCKET, SO_BROADCAST, (char*)&broad, sizeof(broad) == SOCKET_ERROR)
+        {
+            Err_Display("setsockopt");
+            return -1;
+        }
