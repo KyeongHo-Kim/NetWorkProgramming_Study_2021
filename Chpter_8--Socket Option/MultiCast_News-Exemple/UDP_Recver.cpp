@@ -30,7 +30,7 @@ int main()
 	saddr.sin_family = AF_INET;
 	saddr.sin_port = htons(8000);
 	//saddr.sin_addr.s_addr = htonl(INADDR_ANY);
-	Insert_IP("192.168.35.17", &saddr.sin_addr);
+	Insert_IP("127.0.0.1", &saddr.sin_addr);
 	if (bind(g_sock, (SOCKADDR *)&saddr, sizeof(saddr)))
 	{
 		Err_Display("bind()");
