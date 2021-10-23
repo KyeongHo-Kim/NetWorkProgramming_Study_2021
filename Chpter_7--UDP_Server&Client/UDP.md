@@ -78,18 +78,34 @@
             SOCKET          s,              // gate socket
             int             level,          // socket option 대 분류 해놓은것
             int             optname,        // socket name 위에서 분류한 옵션의 이름
-            const char      *optval,        // optname을 변경하기 위한 주소값 반드시(char*)형 변환 후 사용
+            const char      *optval,        // optname을 변경하기 위한 값, 반드시(char*)& 형 변환 후 사용 / 메모리를 만들어서 사용 (int, bool, struct) 등 다양하게 올 수 있다.
             int             optlen          //  size
         );
 
-        문제가 발생하면 SOCKER_ERROR 반환, 성공 0 반환
+        문제가 발생하면 SOCKER_ERROR 반환   성공 시 0 반환
 
 >사용예시
+    
+    BOOL bEnable = TRUE;
 
-        bool broad = true;
-        
-        if(setsockopt(g_sock, SOL_SOCKET, SO_BROADCAST, (char*)&broad, sizeof(broad) == SOCKET_ERROR)
-        {
-            Err_Display("setsockopt");
-            return -1;
-        }
+    if(setsockopt(sock, SOL_SOCKET, SO_BROADCAST, (char*)&bEnable, sizeof(bEnable)) == SOCKET_ERROR)
+      {
+          return -1;
+      }
+    
+
+</br></br>
+
+## getsockopt()
+- 현재 설정된 socket 옵션 값을 얻어온다.
+
+    getsockopt
+        (
+            SOCKET          s,              // gate socket
+            int             level,          // socket option 대 분류 해놓은것
+            int             optname,        // socket name 위에서 분류한 옵션의 이름
+            const char      *optval,        // optname을 변경하기 위한 값, 반드시(char*)& 형 변환 후 사용 / 메모리를 만들어서 사용 (int, bool, struct) 등 다양하게 올 수 있다.
+            int             *optlen          //  size
+        );
+
+        문제가 발생하면 SOCKER_ERROR 반환   성공 시 0 반환

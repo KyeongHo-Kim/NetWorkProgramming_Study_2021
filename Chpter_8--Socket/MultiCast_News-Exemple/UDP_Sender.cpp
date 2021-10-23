@@ -6,18 +6,18 @@
 using std::cout;
 using std::endl;
 
-void Err_Display(const char*);
-
+void Err_Display(const char *);
+void Insert_IP(PCSTR, PVOID);
 int main()
 {
 	WSADATA wsa;
-	if (WSAStartup(MAKEWORD(2,2),&wsa))			
+	if (WSAStartup(MAKEWORD(2, 2), &wsa))
 	{
 		Err_Display("WSAStartup");
 		return -1;
 	}
 
-	SOCKET g_sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);		
+	SOCKET g_sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
 	if (g_sock == INVALID_SOCKET)
 	{
 		Err_Display("g_sock");
@@ -25,25 +25,28 @@ int main()
 		return -1;
 	}
 
-	bool broad = true;
-	if (setsockopt(g_sock, SOL_SOCKET, SO_BROADCAST, (char*)&broad, sizeof(broad)) == SOCKET_ERROR)		
+	int ttl = 16;
+	int ttllen = sizeof(ttl);
+	if (setsockopt(g_sock, IPPROTO_IP, IP_MULTICAST_TTL, (char *)&ttl, ttllen) == SOCKET_ERROR)
 	{
-		Err_Display("setsockopt");
+		Err_Display("setsockopt_Multicast_TTl()");
 		return -1;
 	}
+	//getsockopt(g_sock, IPPROTO_IP, IP_MULTICAST_TTL,(char*)&ttl,&ttllen);
+
 
 	SOCKADDR_IN saddr;
 	saddr.sin_family = AF_INET;
 	saddr.sin_port = htons(8000);
-	saddr.sin_addr.s_addr = htonl(INADDR_BROADCAST);			
+	Insert_IP("236.0.0.1", &saddr.sin_addr);
 
-	/*if (connect(g_sock,(SOCKADDR*)&saddr,sizeof(saddr)))		
+	/*if (connect(g_sock,(SOCKADDR*)&saddr,sizeof(saddr)))
 	{
 		Err_Display("connect");
 		return -1;
 	}*/
 
-	FILE* fptr = NULL;
+	FILE *fptr = NULL;
 	fopen_s(&fptr, "news.txt", "r");
 	if (fptr == NULL)
 	{
@@ -64,12 +67,12 @@ int main()
 
 		sendlen = strlen(buf);
 
-		sendto(g_sock, buf, sendlen, 0, (SOCKADDR*)&saddr, sizeof(saddr));
+		sendto(g_sock, buf, sendlen, 0, (SOCKADDR *)&saddr, sizeof(saddr));
 
-		Sleep(500);		
+		Sleep(500);
 	}
 
-    sendto(g_sock, buf, 0, 0, (SOCKADDR*)&saddr, sizeof(saddr));
+	sendto(g_sock, buf, 0, 0, (SOCKADDR *)&saddr, sizeof(saddr));
 
 	closesocket(g_sock);
 	WSACleanup();
@@ -77,7 +80,7 @@ int main()
 	return 0;
 }
 
-void Err_Display(const char* mes)
+void Err_Display(const char *mes)
 {
 	LPVOID err_mes = NULL;
 	FormatMessage
@@ -90,6 +93,15 @@ void Err_Display(const char* mes)
 		0,
 		NULL
 	);
-	cout << mes << " : " <<(LPSTR)err_mes << endl;
+	cout << mes << " : " << err_mes << endl;
 	LocalFree(err_mes);
+}
+
+void Insert_IP(PCSTR str, PVOID addr)
+{
+	if (!InetPton(AF_INET,str,addr))
+	{
+		Err_Display("InetPton()");
+		return;
+	}
 }

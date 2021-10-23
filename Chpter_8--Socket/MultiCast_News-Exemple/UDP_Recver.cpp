@@ -7,7 +7,7 @@ using std::cout;
 using std::endl;
 
 void Err_Display(const char *);
-
+void Insert_IP(PCSTR, PVOID);
 int main()
 {
 	WSADATA wsa;
@@ -29,13 +29,26 @@ int main()
 	SOCKADDR_IN saddr;
 	saddr.sin_family = AF_INET;
 	saddr.sin_port = htons(8000);
-	saddr.sin_addr.s_addr = htonl(INADDR_ANY);
-	if (bind(g_sock,(SOCKADDR*)&saddr,sizeof(saddr)))
+	//saddr.sin_addr.s_addr = htonl(INADDR_ANY);
+	Insert_IP("192.168.35.17", &saddr.sin_addr);
+	if (bind(g_sock, (SOCKADDR *)&saddr, sizeof(saddr)))
 	{
 		Err_Display("bind()");
 		return -1;
 	}
 
+	IP_MREQ mreq;
+	//Insert_IP("127.0.0.1", &mreq.imr_interface); << setting Local host ip
+    //InetPton(AF_INET, "127.0.0.1", &mreq.imr_interface); << setting Local host ip
+	mreq.imr_interface.s_addr = htonl(INADDR_ANY);
+	Insert_IP("236.0.0.1", &mreq.imr_multiaddr);
+	
+
+	if (setsockopt(g_sock, IPPROTO_IP, IP_ADD_MEMBERSHIP, (char *)&mreq, sizeof(mreq)) == SOCKET_ERROR)
+	{
+		Err_Display("setsockopt(add_Member)");
+		return -1;
+	}
 
 	char buf[80];
 	int recvlen;
@@ -50,7 +63,7 @@ int main()
 			Err_Display("recvfrom()");
 			break;
 		}
-        if (recvlen == SOCKET_ERROR)
+		if (recvlen == SOCKET_ERROR)
 		{
 			cout << "Sender Connection abNomal(RST) close case" << endl;
 			Err_Display("recvfrom()");
@@ -80,6 +93,15 @@ void Err_Display(const char *mes)
 		0,
 		NULL
 	);
-	cout << mes << " : " <<(LPSTR)err_mes << endl;
+	cout << mes << " : " << (LPSTR)err_mes << endl;
 	LocalFree(err_mes);
+}
+
+void Insert_IP(PCSTR str, PVOID addr)
+{
+	if (!InetPton(AF_INET, str, addr))
+	{
+		Err_Display("InetPton()");
+		return;
+	}
 }
