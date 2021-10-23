@@ -39,7 +39,7 @@ int main()
 
 	IP_MREQ mreq;
 	//Insert_IP("127.0.0.1", &mreq.imr_interface); << setting Local host ip
-    //InetPton(AF_INET, "127.0.0.1", &mreq.imr_interface); << setting Local host ip
+    	//InetPton(AF_INET, "127.0.0.1", &mreq.imr_interface); << setting Local host ip
 	mreq.imr_interface.s_addr = htonl(INADDR_ANY);
 	Insert_IP("236.0.0.1", &mreq.imr_multiaddr);
 	
