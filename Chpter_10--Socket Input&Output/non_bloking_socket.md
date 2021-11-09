@@ -7,7 +7,12 @@
 
         ioctlsocket
         (
-            [int]           SOCKET  s,
-            [int]           long    cmd,
-            [int, out]      u_long *argp   
+            [int]           SOCKET  s,          // gate socket
+            [int]           long    cmd,        // FIONBIO = File input output non blocking input output
+            [int, out]      u_long *argp        //
         );
+
+>사용예시
+
+    u_long on = 1;    
+    ioctlsocket(socket, FIONBIO, &on); 
