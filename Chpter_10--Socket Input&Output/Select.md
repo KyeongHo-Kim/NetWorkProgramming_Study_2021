@@ -1,5 +1,7 @@
 ## select()
 - 소켓모드(blocking, nonblocking)와 상관없이 여러 소켓을 하나의 스레드로 처리 할 수 있다.
+- 연결 요구와 수신데이터를 체크한다.
+- listen()전에 작성한다.
 
         int WSAAPI select
         (
@@ -21,7 +23,7 @@
 
         typedef struct fd_set
         {
-            u_int   fd_count;                       // 읽을 소켓의 갯수
+            u_int   fd_count;                       // 읽을 소켓의 갯수 
             SOCKET  fd_array[FD_SETSIZE];           // 인덱스 별 각 소켓에 해당하는 주소값
 
         } fd_set, Fd_SET, *PFD_SET, LPED_SET;
@@ -40,3 +42,56 @@
 
 ## FD_ISSET
 - 해당 소켓이 메모리에 있는지 판단한다.
+
+</br></br>
+
+>사용 예
+
+    fd_set check;               
+    FD_ZERO(&check);            
+    FD_SET(socket, &check)      
+    fd_set check_copy;          
+    int ret_select;
+    SOCKET s_scok;
+    SOCKADDR_IN caddr;
+    int caddrlen;
+    int recvlen;
+    char buf[80];
+
+    while(true)
+    {   check_copy = check;     
+        ret_select = select(0,&check_copy,NULL,NULL,NULL);
+        
+        for(int idx = 0; idx < ret_select; idx++)
+        {
+            if(FD_ISSET(copy_check.fd_array[idx], &copy_check)
+            {
+                if(copy_check.fd_array[idx] == g_scok)
+                {
+                    s_scok = accept(g_scok,(SOCKADDR*)&caddr,&caddrlen)
+                    if(){Error Check..}
+                    FD_SET(s_scok,&check);
+                }
+                else
+                {
+                    recvlen = recv(copy_check.fd_arrat[idx],buf,80,0);
+                    if(recvlen == SOCKET_ERROR)
+                    {
+                        closesocket(copy_check.fd_array[idx]);
+                        FD_CLR(copy_check.fd_array[idx],&check);
+                        break;
+                    }
+                    if(recvlen == 0)
+                    {
+                        closesocket(copy_check.fd_array[idx]);
+                        FD_CLR(copy_check.fd_array[idx],&check);
+                        break;
+                    }
+                    buf[recvlen] = NULL;
+                    cout<<buf<<endl;
+
+                    send(copy_check.fd_array[idx],buf,recvlen,0);
+                }
+            }
+        }
+    }
