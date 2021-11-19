@@ -109,7 +109,7 @@ int main()
 						cout << "Nomal close case" << endl;
 						closesocket(copy_reads.fd_array[idx]);
 						FD_CLR(copy_reads.fd_array[idx], &reads);
-						break;
+						continue;
 					}
 					if (recvlen == SOCKET_ERROR)
 					{
@@ -117,7 +117,7 @@ int main()
 						Err_Display("recv()");
 						closesocket(copy_reads.fd_array[idx]);
 						FD_CLR(copy_reads.fd_array[idx], &reads);
-						break;
+						continue;
 					}
 					buf[recvlen] = NULL;
 					cout << "From Client: " << buf << endl;
