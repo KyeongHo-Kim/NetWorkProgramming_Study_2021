@@ -25,9 +25,10 @@
             [in]        LPWSAOVERLAPPED_COMPLETION_ROUTINE      lpCompletionRoutine     // Overlapped IO Model-II에서 사용, 콜백함수 지원
         );
 
-        정상 동작할경우 0 또는 SOCKET_ERROR를 반환한다.
+        정상 동작 0 또는 SOCKET_ERROR를 반환한다.
         여기서 SOCKET_ERRPR의 내용은 WSA_IO_PENDING이어야 한다.
         WSA_IO_PENDING은 overlapped operation io 즉 비동기 모델이 정상적으로 동작하고 있다는 의미이다.
+        
 
          -WSABUF-
         typedef struct _WSABUF
