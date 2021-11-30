@@ -15,7 +15,7 @@
 </br></br>
 
 ## WSAEvemtSelect()
-- 이벤트 오브젝트를 감시한다. 
+- 이벤트 객체로 소켓의 상태를 감시한다. 
 - 소켓과 이벤트 객체를 하나로 묶는다. 즉 그룹으로 만든다.
 
         int WSAAPI WSAEventSelect
@@ -80,7 +80,9 @@
         
         typedef struct _WSANETWORKENVETS
         {
-            long    lNetWorkEvents;                 // 이벤트의 종류가 들어간다. WSAEventSelect참조
+            long    &lNetWorkEvents;                 // 이벤트의 종류가 들어간다. WSAEventSelect참조
             int     iErrorCode[FD_MAX_EVENT];       // 해당 이벤트가 오류일때, 
 
         } WSANETWORKEVENTS, *LPWSANETWORKEVENTS;
+
+        실패 = SOCKET_ERROR반환

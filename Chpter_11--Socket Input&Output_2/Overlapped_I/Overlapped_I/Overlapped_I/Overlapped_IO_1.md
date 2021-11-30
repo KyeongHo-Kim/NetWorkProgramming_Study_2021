@@ -1,6 +1,5 @@
 # Overlapped IO(중첩 IO) Model-I
 - io가 종료됨을 알리는 방법에 따라 달라진다.
-
 </br></br></br>
 
 ## WSASocketW()
@@ -13,6 +12,7 @@
 - Scatter_Gather Io = 다른 메모리에 있는 데이터를 모아서 전송할 수 있다.
 - 하나의 수신에 대해 한번만 호출 한다.
 - 수신이 완료되지 않아도 리턴된다.
+- recv함수가 정상적으로 완료되면 WSAOverLapped::hevent가 signald 상태로 변경된다.
 
         WSARecv
         (
@@ -24,8 +24,21 @@
             [in]        LPWSAOVERLAPPED                         lpOverlapped,           // WSAOVERAPPED 메모리를 만들어서 사용,   ZeroMemory()를 통해 초기화 후 작성해야함
             [in]        LPWSAOVERLAPPED_COMPLETION_ROUTINE      lpCompletionRoutine     // Overlapped IO Model-II에서 사용, 콜백함수 지원
         );
+
+        정상 동작할경우 0 또는 SOCKET_ERROR를 반환한다.
+        여기서 SOCKET_ERRPR의 내용은 WSA_IO_PENDING이어야 한다.
+        WSA_IO_PENDING은 overlapped operation io 즉 비동기 모델이 정상적으로 동작하고 있다는 의미이다.
+
+         -WSABUF-
+        typedef struct _WSABUF
+        {
+            ULONG   len;        // 수신 = 연결된 버퍼를 크기 - 1,   송신 = 보낼 데이터의 크기
+            CHAR    *buf;       // 실질적으로 데이터를 받는 버퍼와 연결한다.
+
+        } WSABUF, *LPWSABU
+
         
-        ### WSAOVERAPPED
+        - WSAOVERAPPED -
         반드시 초기화를 하고 사용한다. / ZeroMemory() 사용
 
         typedef struct _WSAOVERAPPED
@@ -34,36 +47,30 @@
             DWORD       InternalHight;
             DWORD       Offset;
             DWORD       OffsetHight;
-            WSAEVENT    hEvent;
+            WSAEVENT    hEvent;                     // 이벤트 객체를 삽입 WSACreateEvents();
 
         } WSAVOERAPPED, *LPWSAOVERAPPED;
 
-        
+</br></br>
 
-        정상 동작할경우 0 또는 SOCKET_ERROR를 반환한다.
-        여기서 SOCKET_ERRPR의 내용은 WSA_IO_PENDING이어야 한다.
-        WSA_IO_PENDING은 overlapped operation io 즉 비동기 모델이 정상적으로 동작하고 있다는 의미이다.
+> listen()함수 이전
 
-</br>
+    Thread를 이용해서 WSAWaitForMultiPleEvents함수를 사용한다.
+    Overlapped I/O의 상태(signal / non-signal)를 체크하기위해 필요하다
 
-### WSABUF
-    typedef struct _WSABUF
-    {
-        ULONG   len;        // 수신 = 연결된 버퍼를 크기 - 1,   송신 = 보낼 데이터의 크기
-        CHAR    *buf;       // 실질적으로 데이터를 받는 버퍼와 연결한다.
-
-    } WSABUF, *LPWSABUF
 
 </br></br>
 
 ## WSAGetOverlappedResult()
 - 이벤트객체가 어떤 상태인지 판단한다.
+- 해당함수가 실행되는 경우는 signald상태가 된  소켓이 존재한다는 의미이다.
+- 
 
         BOOL WSAAPI WSAGetOverlappedResult
         (
             [in]  SOCKET          s,                // signal상태인 소켓
-            [in]  LPWSAOVERLAPPED lpOverlapped,     // 위에서 생성한 _WSAOVERAPPED메모리의 주소값 작성
-            [out] LPDWORD         lpcbTransfer,     // 송/수신된 바이트 수
+            [in]  LPWSAOVERLAPPED lpOverlapped,     // WSARecv()때 생성한 _WSAOVERAPPED메모리의 주소값 작성
+            [out] LPDWORD         lpcbTransfer,     // 송/수신된 바이트 수/ 자동으로 설정/ 송신 또는 수신의 결과를 알 수 있다.
             [in]  BOOL            fWait,            // TRUE = overlapped io가 종료되기 전까지 반환되지 않음
             [out] LPDWORD         lpdwFlags         // 0
         );
@@ -72,7 +79,7 @@
 
 </br></br>
 
-> Session 정보/ ACT(Asynhronous_Communication_Token)
+> Session 정보/ ACT(Asynhronous_Communication_Token) 즉 송·수신에 필요한 정보
         
     - WSAOVERALLED 객체                     WSAOVERALLED    over;
 
@@ -82,12 +89,12 @@
 
     - WSABUF(송/수신)                       WSABUF          swsa, rwsa;
     - 실제 송수신 버퍼                       char            sbuf[], rbuf[];
+`
+    - Session 정보를 처리하는 핸들러         void            (*handler)();      송 수신을 판단하기 위함
 
-    - Session 정보를 처리하는 핸들러         void            (*handler)();
+    - Event 객체의 핸들값                   WSAEVENT        hevent = WSACreateEvents();
 
-    - Event 객체의 핸들값                   WSAEVENT        hevent;
-
-    - CloseConnection 정보                 LPServer        server;
+    - CloseConnection 정보                 LPServer        server;              서버로 가기위한 포인터
      (이벤트 핸들값, 소켓정보)
 
         
@@ -109,6 +116,13 @@
 </br></br>
 
 # 전체 순서
+
+</br>
+
+1. Overlapped.h = (struct_session, struct_server)
+2. Main.cpp = 연결 및 송·수신
+3. Proactor.cpp(WSAWaitForMultipleEvents(),WSAGetOverlappedResult())
+4. util.cpp 각종 초기화
 
 </br>
 
