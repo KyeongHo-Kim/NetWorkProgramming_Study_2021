@@ -95,11 +95,11 @@
 
     - Event 객체의 핸들값                   WSAEVENT        hevent = WSACreateEvents();
 
-    - CloseConnection 정보                 LPServer        server;              서버로 가기위한 포인터
+    - 정보를 주거나 가져오기 위함            LPServer        server;              서버로 가기위한 포인터
      (이벤트 핸들값, 소켓정보)
 
         
-        Session생성 시점은 accept()가 완료되어 클라이언트와 통신을 위한 소켓 생성 후
+        Session생성 시점은 accept()가 완료되어 클라이언트와 통신을 위한 소켓 생성 이후 만들어진다.
 
 </br></br>
 
@@ -120,61 +120,10 @@
 
 </br>
 
-1. Overlapped.h = (struct_session, struct_server)
-2. Main.cpp = 연결 및 송·수신
+1. Overlapped.h  (struct_session, struct_server) 및 각종 함수 선언
+2. Main.cpp = 함수호출 연결 및 송·수신
 3. Proactor.cpp(WSAWaitForMultipleEvents(),WSAGetOverlappedResult())
 4. util.cpp 각종 초기화
 
 </br>
 
-> ## Server_Init(Server*) 
-    
-    1. WSAStartup
-    2. g_socket
-    3. bind
-    4. Server Data 초기화
-        4-1 listen()
-    5. noc 0 초기화
-    6. Critical_Section 초기화
-
-</br></br>
-
-> ## Add_Session(Server *ser, SOCKET s)
-
-    1. new Session
-    2. Session data 초기화
-        2 - 1 (listen)socket 초기화
-        2 - 2 Event객체 초기화
-        2 - 3 Server 초기화
-        2 - 4 WSABUF send -> sbuf[] / Recv -> rbuf[]초기화
-    3. Server Update
-
-
-</br></br>
-
-> ## Close_Session(Session *)
-
-    1. socket, event객체 백업
-    2. Server :: sarr, earr의 정보를 제거 후 noc --
-    3. closesocket,WSACloseEvent
-
-
-
-</br></br>
-
-> ## Pcaket_Recv(Session*)
-
-    1. Clean_Session(Session*, size)
-       1 - 1 over초기화
-       1 - 2 session -> over.hevent  이벤트 객체 핸들값 삽입
-       1 - 3    추가예정 
-    2. WSARecv() 호출
-       2 - 1 SOCKET_ERROR && WSA_IO_PANDING  체크
-    3. WSASend() 호출
-
-</br></br>
-
-> ## ProActor
-
-    1. WSAWaitForMultiplyEvents()
-   

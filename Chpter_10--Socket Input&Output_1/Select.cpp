@@ -147,7 +147,7 @@ void Err_Display(const char* mes)
 		0,
 		NULL
 	);
-	cout << (LPSTR)err_mes << endl;
+	cout <<mes<<" : "<< (LPSTR)err_mes << endl;
 	LocalFree(err_mes);
 }
 
