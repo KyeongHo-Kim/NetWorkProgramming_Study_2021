@@ -21,7 +21,7 @@ typedef struct session
 {
 	WSAOVERLAPPED over;					// WSArecv, WSAsend, WSAGetOverlappedResult에서 사용됨 
 
-	WSABUF rwsa, swsa;					// Scatter_getther를 위한 연결 버퍼
+	WSABUF rwsa, swsa;					// Scatter_Gather를 위한 연결 버퍼
 	char rbuf[80], sbuf[80];			// 실제 데이터 송·수신 버퍼
 
 	SOCKET tcp_sock;

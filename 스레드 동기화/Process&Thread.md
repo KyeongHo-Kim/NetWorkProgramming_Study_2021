@@ -41,7 +41,7 @@ Process가 많으면 그만큼 context_switching_Overhead가 많이 발생하기
 
 </br></br></br>
 
-## _bginthread()
+## _bginthreadex()
 - Thread를 생성한다.
 - 정상적으로 작동하면 새로 만들어진 "Thread"의 "Handle"값을 반환한다.
 - <process.h> 선언 후 사용가능
@@ -51,7 +51,7 @@ Process가 많으면 그만큼 context_switching_Overhead가 많이 발생하기
         void * security                                       // 파생 프로세스를 만들때 사용 이번학기 사용 x
         unsigned stack_size,                                  // thread에서 공유되지 않는 영역, 직접설정 하지 않고 0으로 두면 default로 설정된다.  이번학기 는 0
         usigned ( __stdcall *start_address )(void *),         // thread를 이용해 일 을 시킬 함수 , 함수의 start address가 들어온다.
-        void *arglist,                                        // 사용할 파라미터의 갯수 지정 (배열사용)
+        void *arglist,                                        // 사용할 파라미터
         unsigend initfla,                                     // thread를 즉시실행 할지 조건(if)을 걸지 결정 0으로 셋팅하면 기본값으로 설정된다.
         unsigend *thrdaddr                                    // thrdaddr의 ID, thrdaddr를 구분할때 사용(thread를 공유할때 thread ID를 사용한다.)
       );
